@@ -13,7 +13,7 @@ public class Main5 {
         }
         System.out.println("Init array: " + Arrays.toString(numbers));
         int max = Integer.MIN_VALUE;
-        int lastIndexMax = -1;
+        int lastIndexMax = 0;
         for (int i = 0; i < numbers.length; i++) {
             max = Math.max(max, numbers[i]);
             if (numbers[i] == max) {
@@ -21,12 +21,7 @@ public class Main5 {
             }
         }
         System.out.println("Max number " + max);
-        if (lastIndexMax >= 0) {
-            System.out.println("Last index of " + max + " in the array is " + lastIndexMax);
-        } else {
-            System.out.println(max + " is not found is the array");
-        }
-
+        System.out.println("Last index of " + max + " in the array is " + lastIndexMax);
         // Task 2 //
         Random random2 = new Random();
         int[] numbers2 = new int[8];
@@ -40,7 +35,6 @@ public class Main5 {
             }
         }
         System.out.println("Changed array: " + Arrays.toString(numbers2));
-
         // Task 3 //
         Random random3 = new Random();
         int[] numbers3 = new int[4];
@@ -50,9 +44,8 @@ public class Main5 {
         System.out.println("Init array: " + Arrays.toString(numbers3));
         int[] newNumbers = Arrays.stream(numbers3).toArray();
         Arrays.sort(newNumbers);
-        boolean retval = Arrays.equals(numbers3, newNumbers);
-        System.out.println("Does this array have a strictly growing sequence? " + retval);
-
+        boolean comparison = Arrays.equals(numbers3, newNumbers);
+        System.out.println("Does this array have a strictly growing sequence? " + comparison);
         // Task 4 //
         Random random4 = new Random();
         int[] firstArray = new int[5];
@@ -66,14 +59,14 @@ public class Main5 {
         System.out.printf("First array: %s%n" + "Second array: %s%n",
                 Arrays.toString(firstArray), Arrays.toString(secondArray));
         double total1 = 0.0D;
-        for (int i = 0; i < firstArray.length; i++) {
-            total1 += firstArray[i];
+        for (int element : firstArray) {
+            total1 += element;
         }
         double average1 = total1 / firstArray.length;
         System.out.println(average1);
         double total2 = 0.0D;
-        for (int i = 0; i < secondArray.length; i++) {
-            total2 += secondArray[i];
+        for (int element : secondArray) {
+            total2 += element;
         }
         double average2 = total2 / secondArray.length;
         System.out.println(average2);
@@ -84,7 +77,7 @@ public class Main5 {
         } else {
             System.out.println("Average of first array = average of first array");
         }
-        // optional task //
+        // Optional task //
         final Random random5 = new Random();
         final int[] numbers5 = new int[10];
         for (int i = 0; i < numbers5.length; i++) {
