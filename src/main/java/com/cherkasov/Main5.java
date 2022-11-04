@@ -84,7 +84,7 @@ public class Main5 {
         } else {
             System.out.println("Average of first array = average of first array");
         }
-        // Optional task //
+        // optional task //
         final Random random5 = new Random();
         final int[] numbers5 = new int[10];
         for (int i = 0; i < numbers5.length; i++) {
