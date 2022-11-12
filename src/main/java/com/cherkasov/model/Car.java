@@ -1,23 +1,29 @@
 package com.cherkasov.model;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class Car {
+    private final String id;
     private String manufacturer;
-    private String engine;
-    private String color;
+    private String engineType;
+    private int enginePower;
+    private Color color;
     private int count;
     private int price;
 
-    public Car() {
-    }
-
-    public Car(String manufacturer, String engine, String color) {
+    public Car(String manufacturer, Engine engine, Color color) {
         this.manufacturer = manufacturer;
-        this.engine = engine;
         this.color = color;
+        engineType = engine.getType();
+        enginePower = engine.getPower();
         count = 1;
         price = new Random().nextInt(10000, 100000);
+        id = UUID.randomUUID().toString();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setManufacturer(String manufacturer) {
@@ -28,20 +34,28 @@ public class Car {
         return manufacturer;
     }
 
-    public void setEngine(final String engine) {
-        this.engine = engine;
-    }
-
-    public String getEngine() {
-        return engine;
-    }
-
-    public void setColor(final String color) {
+    public void setColor(final Color color) {
         this.color = color;
     }
 
-    public String getColor() {
+    public Color getColor() {
         return color;
+    }
+
+    public void setEngineType(final Engine engine) {
+        this.engineType = engine.getType();
+    }
+
+    public String getEngineType() {
+        return engineType;
+    }
+
+    public void setEnginePower(final Engine engine) {
+        this.enginePower = engine.getPower();
+    }
+
+    public int getEnginePower() {
+        return enginePower;
     }
 
     public void setCount(final int count) {
@@ -58,5 +72,10 @@ public class Car {
 
     public int getPrice() {
         return price;
+    }
+    @Override
+    public String toString() {
+        return String.format("ID: %s, Manufacturer: %s, EnginePower: %s, EngineType: %s, Color: %s, Count; %s, Price; %s%n",
+                id, manufacturer, enginePower, engineType, color, count, price);
     }
 }

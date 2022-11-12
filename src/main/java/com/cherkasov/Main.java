@@ -1,15 +1,21 @@
 package com.cherkasov;
 
 import com.cherkasov.model.Car;
+import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.service.CarService;
 
 public class Main {
     public static void main(String[] arg) {
-        Car firstCar = CarService.create();
-        Car secondCar = CarService.create();
-        Car thirdCar = CarService.create();
-        CarService.print(firstCar);
-        CarService.print(secondCar);
-        CarService.print(thirdCar);
+        CarService carService = new CarService(new CarArrayRepository());
+        Car firstCar = carService.create();
+        Car secondCar = carService.create();
+        Car thirdCar = carService.create();
+        carService.check(firstCar);
+        carService.check(secondCar);
+        carService.check(thirdCar);
+        carService.create(3);
+        carService.printAll();
+        carService.insert(1, firstCar);
+        carService.printAll();
     }
 }
