@@ -6,8 +6,7 @@ import java.util.UUID;
 public class Car {
     private final String id;
     private String manufacturer;
-    private String engineType;
-    private int enginePower;
+    private Engine engine;
     private Color color;
     private int count;
     private int price;
@@ -15,8 +14,7 @@ public class Car {
     public Car(String manufacturer, Engine engine, Color color) {
         this.manufacturer = manufacturer;
         this.color = color;
-        engineType = engine.getType();
-        enginePower = engine.getPower();
+        this.engine = engine;
         count = 1;
         price = new Random().nextInt(10000, 100000);
         id = UUID.randomUUID().toString();
@@ -42,20 +40,12 @@ public class Car {
         return color;
     }
 
-    public void setEngineType(final Engine engine) {
-        this.engineType = engine.getType();
+    public Engine getEngine() {
+        return engine;
     }
 
-    public String getEngineType() {
-        return engineType;
-    }
-
-    public void setEnginePower(final Engine engine) {
-        this.enginePower = engine.getPower();
-    }
-
-    public int getEnginePower() {
-        return enginePower;
+    public void setEngine(final Engine engine) {
+        this.engine = engine;
     }
 
     public void setCount(final int count) {
@@ -73,9 +63,10 @@ public class Car {
     public int getPrice() {
         return price;
     }
+
     @Override
     public String toString() {
-        return String.format("ID: %s, Manufacturer: %s, EnginePower: %s, EngineType: %s, Color: %s, Count; %s, Price; %s%n",
-                id, manufacturer, enginePower, engineType, color, count, price);
+        return String.format("ID: %s, Manufacturer: %s, Engine: %s, %s, Color: %s, Count; %s, Price; %s%n",
+                id, manufacturer, engine.getType(), engine.getPower(), color, count, price);
     }
 }

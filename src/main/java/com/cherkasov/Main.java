@@ -10,8 +10,11 @@ public class Main {
         Car firstCar = carService.create();
         Car secondCar = carService.create();
         Car thirdCar = carService.create();
+        carService.print(firstCar);
         carService.check(firstCar);
+        carService.print(secondCar);
         carService.check(secondCar);
+        carService.print(thirdCar);
         carService.check(thirdCar);
         carService.create(3);
         carService.printAll();

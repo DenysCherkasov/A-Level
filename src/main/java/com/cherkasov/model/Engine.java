@@ -1,5 +1,7 @@
 package com.cherkasov.model;
 
+import com.cherkasov.service.CarService;
+
 import java.util.Random;
 
 public class Engine {
@@ -7,7 +9,7 @@ public class Engine {
     private String type;
 
     public Engine(String type) {
-        this.power = new Random().nextInt(1000);
+        power = new Random().nextInt(400);
         this.type = type;
     }
 
@@ -26,4 +28,11 @@ public class Engine {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Type: %s, Power: %s",
+                type, power);
+    }
+
 }

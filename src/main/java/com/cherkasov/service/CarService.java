@@ -10,7 +10,6 @@ import java.util.Random;
 
 public class CarService {
     private final CarArrayRepository carArrayRepository;
-
     private final Random random = new Random();
 
     public CarService(final CarArrayRepository carArrayRepository) {
@@ -37,18 +36,12 @@ public class CarService {
         carArrayRepository.insert(index, car);
     }
 
-    public void print(Car car) {
-        String carInfo = String.format("{ID: %s, Manufacturer: %s, EnginePower: %s, EngineType: %s, Color: %s, Count; %s, Price; %s}",
-                car.getId(), car.getManufacturer(), car.getEnginePower(), car.getEngineType(), car.getColor(), car.getCount(), car.getPrice());
-        System.out.println(carInfo);
-    }
-
     public void check(Car car) {
-        if (car.getCount() >= 1 && (car.getEnginePower() > 200)) {
+        if (car.getCount() >= 1 && (car.getEngine().getPower() > 200)) {
             System.out.println("The car is ready for sale");
-        } else if (car.getCount() < 1 && (car.getEnginePower() > 200)) {
+        } else if (car.getCount() < 1 && (car.getEngine().getPower() > 200)) {
             System.out.println("The count of the car = 0");
-        } else if (car.getCount() >= 1 && (car.getEnginePower() <= 200)) {
+        } else if (car.getCount() >= 1 && (car.getEngine().getPower() <= 200)) {
             System.out.println("The engine power of the car is less than 200");
         } else {
             System.out.println("The count of the car = 0 and the engine power of the car is less than 200");
@@ -59,6 +52,10 @@ public class CarService {
         final Color[] values = Color.values();
         final int randomIndex = random.nextInt(values.length);
         return values[randomIndex];
+    }
+
+    public void print(Car car) {
+        System.out.println(car.toString());
     }
 
     public void printAll() {
