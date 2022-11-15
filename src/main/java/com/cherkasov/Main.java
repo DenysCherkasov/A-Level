@@ -1,19 +1,21 @@
 package com.cherkasov;
 
+import com.cherkasov.model.Car;
+import com.cherkasov.repository.CarArrayRepository;
+import com.cherkasov.service.CarService;
+
 public class Main {
-    public static void main(String[] args) {
-        System.out.println( "Denys Cherkasov");
-        for (int y = 5, i = 0; i <= 10; i++, y += 2) {
-            System.out.println("Крок " +i + ", значення " + y);
-        }
-        for (int i = 0; i <= 10; i++) {
-            if (i == 3) {
-                continue;
-            }
-            if (i == 6) {
-                break;
-            }
-            System.out.println(i);
-        }
+    public static void main(String[] arg) {
+        CarService carService = new CarService(new CarArrayRepository());
+        Car firstCar = carService.create();
+        Car secondCar = carService.create();
+        Car thirdCar = carService.create();
+        carService.check(firstCar);
+        carService.check(secondCar);
+        carService.check(thirdCar);
+        carService.create(3);
+        carService.printAll();
+        carService.insert(6, firstCar);
+        carService.printAll();
     }
 }
