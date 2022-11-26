@@ -4,6 +4,7 @@ import com.cherkasov.model.Car;
 import com.cherkasov.model.Color;
 import com.cherkasov.model.Engine;
 import com.cherkasov.repository.CarArrayRepository;
+import com.cherkasov.util.RandomGenerator;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -11,24 +12,42 @@ import java.util.Random;
 public class CarService {
     private final CarArrayRepository carArrayRepository;
     private final Random random = new Random();
+    private final RandomGenerator randomGenerator = new RandomGenerator();
 
     public CarService(final CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
 
-    public Car create() {
+    // tested //
+
+    public Car createWithoutCount() {
         Engine engine = new Engine(getRandomString());
         Car car = new Car(getRandomString(), engine, getRandomColor());
         carArrayRepository.save(car);
         return car;
     }
 
-    public void create(final int count) {
+    // tested //
+    public void createWithCount(final int count) {
         for (int i = 0; i < count; i++) {
-            create();
+            createWithoutCount();
         }
     }
 
+    // tested //
+    public int createWithRandomCount(final RandomGenerator randomGenerator) {
+        int count = randomGenerator.getRandomNumber();
+        if (randomGenerator == null || count <= 0 || count > 0) {
+            return -1;
+        } else {
+            for (int i = 0; i < count; i++) {
+                print(createWithoutCount());
+            }
+        }
+        return count;
+    }
+
+    //tested//
     public void insert(int index, final Car car) {
         if (index < 0 || car == null) {
             return;
@@ -36,7 +55,8 @@ public class CarService {
         carArrayRepository.insert(index, car);
     }
 
-    public void check(Car car) {
+    //tested//
+    public static void check(Car car) {
         if (car.getCount() >= 1 && (car.getEngine().getPower() > 200)) {
             System.out.println("The car is ready for sale");
         } else if (car.getCount() < 1 && (car.getEngine().getPower() > 200)) {
@@ -48,25 +68,23 @@ public class CarService {
         }
     }
 
-    private Color getRandomColor() {
-        final Color[] values = Color.values();
-        final int randomIndex = random.nextInt(values.length);
-        return values[randomIndex];
-    }
-
+    // tested //
     public void print(Car car) {
         System.out.println(car.toString());
     }
 
+    // tested //
     public void printAll() {
         final Car[] all = carArrayRepository.getAll();
         System.out.println(Arrays.toString(all));
     }
 
+    //tested//
     public Car[] getAll() {
         return carArrayRepository.getAll();
     }
 
+    //tested//
     public Car find(final String id) {
         if (id == null || id.isEmpty()) {
             return null;
@@ -74,12 +92,20 @@ public class CarService {
         return carArrayRepository.getById(id);
     }
 
+    //tested//
     public void delete(final String id) {
         if (id == null || id.isEmpty()) {
             return;
         }
         carArrayRepository.delete(id);
     }
+
+    private Color getRandomColor() {
+        final Color[] values = Color.values();
+        final int randomIndex = random.nextInt(values.length);
+        return values[randomIndex];
+    }
+
 
     public void changeRandomColor(final String id) {
         if (id == null || id.isEmpty()) {
@@ -101,6 +127,7 @@ public class CarService {
         carArrayRepository.updateColor(car.getId(), randomColor);
     }
 
+    //tested//
     public String getRandomString() {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random();

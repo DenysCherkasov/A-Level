@@ -3,22 +3,22 @@ package com.cherkasov;
 import com.cherkasov.model.Car;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.service.CarService;
+import com.cherkasov.util.RandomGenerator;
 
 public class Main {
     public static void main(String[] arg) {
         CarService carService = new CarService(new CarArrayRepository());
-        Car firstCar = carService.create();
-        Car secondCar = carService.create();
-        Car thirdCar = carService.create();
+        Car firstCar = carService.createWithoutCount();
+        RandomGenerator randomGenerator = new RandomGenerator();
+        Car secondCar = carService.createWithoutCount();
+        Car thirdCar = carService.createWithoutCount();
         carService.print(firstCar);
-        carService.check(firstCar);
         carService.print(secondCar);
-        carService.check(secondCar);
+        CarService.check(secondCar);
         carService.print(thirdCar);
         carService.check(thirdCar);
-        carService.create(3);
-        carService.printAll();
-        carService.insert(1, firstCar);
+        System.out.println("");
+        carService.createWithRandomCount(randomGenerator);
         carService.printAll();
     }
 }
