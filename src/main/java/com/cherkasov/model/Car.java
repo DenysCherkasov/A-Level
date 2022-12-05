@@ -1,12 +1,18 @@
 package com.cherkasov.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Random;
 import java.util.UUID;
 
 @Data
-public class Car {
+@Setter
+@Getter
+public abstract class Car {
+    private Type type;
     private final String id;
     private String manufacturer;
     private Engine engine;

@@ -1,31 +1,31 @@
 package com.cherkasov.repository;
 
-import com.cherkasov.model.Car;
 import com.cherkasov.model.Color;
+import com.cherkasov.model.PassengerCar;
 
 public class CarArrayRepository {
-    private static Car[] cars = new Car[10];
+    private static PassengerCar[] passengerCars = new PassengerCar[10];
 
-    public void save(Car car) {
-        final int index = putCar(car);
-        if (index == cars.length) {
-            int oldlength = cars.length;
+    public void save(PassengerCar passengerCar) {
+        final int index = putCar(passengerCar);
+        if (index == passengerCars.length) {
+            int oldlength = passengerCars.length;
             increaseArray();
-            cars[oldlength] = car;
+            passengerCars[oldlength] = passengerCar;
         }
     }
 
-    public Car[] getAll() {
+    public PassengerCar[] getAll() {
         final int newLength = foundLength();
-        final Car[] newCars = new Car[newLength];
-        System.arraycopy(cars, 0, newCars, 0, newLength);
-        return newCars;
+        final PassengerCar[] PassengerNewCars = new PassengerCar[newLength];
+        System.arraycopy(passengerCars, 0, PassengerNewCars, 0, newLength);
+        return PassengerNewCars;
     }
 
-    public Car getById(final String id) {
-        for (Car car : cars) {
-            if (car.getId().equals(id)) {
-                return car;
+    public PassengerCar getById(final String id) {
+        for (PassengerCar passengerCar : passengerCars) {
+            if (passengerCar.getId().equals(id)) {
+                return passengerCar;
             }
         }
         return null;
@@ -33,30 +33,30 @@ public class CarArrayRepository {
 
     public void delete(final String id) {
         int index = 0;
-        for (; index < cars.length; index++) {
-            if (cars[index].getId().equals(id)) {
+        for (; index < passengerCars.length; index++) {
+            if (passengerCars[index].getId().equals(id)) {
                 break;
             }
         }
-        if (index != cars.length) {
-            System.arraycopy(cars, index + 1, cars, index,
-                    cars.length - (index + 1));
+        if (index != passengerCars.length) {
+            System.arraycopy(passengerCars, index + 1, passengerCars, index,
+                    passengerCars.length - (index + 1));
         }
     }
 
     public void updateColor(final String id, final Color color) {
-        final Car car = getById(id);
-        if (car != null) {
-            car.setColor(color);
+        final PassengerCar passengerCar = getById(id);
+        if (passengerCar != null) {
+            passengerCar.setColor(color);
         }
     }
 
 
-    private int putCar(Car car) {
+    private int putCar(PassengerCar passengerCar) {
         int index = 0;
-        for (; index < cars.length; index++) {
-            if (cars[index] == null) {
-                cars[index] = car;
+        for (; index < passengerCars.length; index++) {
+            if (passengerCars[index] == null) {
+                passengerCars[index] = passengerCar;
                 break;
             }
         }
@@ -64,15 +64,15 @@ public class CarArrayRepository {
     }
 
     private void increaseArray() {
-        Car[] newCars = new Car[cars.length * 2];
-        System.arraycopy(cars, 0, newCars, 0, cars.length);
-        cars = newCars;
+        PassengerCar[]  passengernewCars = new PassengerCar[passengerCars.length * 2];
+        System.arraycopy(passengerCars, 0, passengernewCars, 0, passengerCars.length);
+        passengerCars = passengernewCars;
     }
 
     public int foundLength() {
         int newLength = 0;
-        for (Car car : cars) {
-            if (car != null) {
+        for (PassengerCar passengerCar : passengerCars) {
+            if (passengerCar != null) {
                 newLength++;
             } else {
                 break;
@@ -81,32 +81,32 @@ public class CarArrayRepository {
         return newLength;
     }
 
-    public void insert(int index, final Car car) {
-        int emptyIndex = findEmptyIndex(cars);
+    public void insert(int index, final PassengerCar passengerCar) {
+        int emptyIndex = findEmptyIndex(passengerCars);
         if (emptyIndex == -1) {
-            save(car);
+            save(passengerCar);
         } else {
             if (index >= emptyIndex) {
-                save(car);
+                save(passengerCar);
             } else {
-                putCarByIndex(index, car, cars);
+                putCarByIndex(index, passengerCar, passengerCars);
             }
         }
     }
 
-    public int findEmptyIndex(Car[] cars) {
+    public int findEmptyIndex(PassengerCar[] passengerCars) {
         int emptyIndex = -1;
-        for (int i = 0; i < cars.length; i++) {
-            if (cars[i] != null) {
+        for (int i = 0; i < passengerCars.length; i++) {
+            if (passengerCars[i] != null) {
                 emptyIndex = i;
             }
         }
         return emptyIndex;
     }
 
-    public void putCarByIndex(int index, final Car car, Car[] cars) {
-        System.arraycopy(cars, index, cars, index + 1,
-                cars.length - (index + 1));
-        cars[index] = car;
+    public void putCarByIndex(int index, final PassengerCar passengerCar, PassengerCar[] passengerCars) {
+        System.arraycopy(passengerCars, index, passengerCars, index + 1,
+                passengerCars.length - (index + 1));
+        passengerCars[index] = passengerCar;
     }
 }
