@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] arg) {
         CarService carService = new CarService(new CarArrayRepository());
         carService.createPassengerCar();
+        carService.createTruck();
         carService.printAll();
-        System.out.println(carService.createTruck());
     }
 }

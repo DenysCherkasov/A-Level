@@ -1,9 +1,6 @@
 package com.cherkasov.service;
 
-import com.cherkasov.model.Color;
-import com.cherkasov.model.Engine;
-import com.cherkasov.model.PassengerCar;
-import com.cherkasov.model.Truck;
+import com.cherkasov.model.*;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.util.RandomGenerator;
 
@@ -14,23 +11,15 @@ public class CarService {
     private final CarArrayRepository carArrayRepository;
     private final Random random = new Random();
     private final RandomGenerator randomGenerator = new RandomGenerator();
+
     public CarService(final CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
 
     // tested //
-
-    public PassengerCar createWithoutCount() {
-        Engine engine = new Engine(getRandomString());
-        PassengerCar passengerCar = new PassengerCar (getRandomString(), engine, getRandomColor(), randomGenerator.getRandomNumber());
-        carArrayRepository.save(passengerCar);
-        return passengerCar;
-    }
-
-    // tested //
     public void createWithCount(final int count) {
         for (int i = 0; i < count; i++) {
-            createWithoutCount();
+            createPassengerCar();
         }
     }
 
@@ -41,7 +30,7 @@ public class CarService {
             return -1;
         } else {
             for (int i = 0; i < count; i++) {
-                print(createWithoutCount());
+                print(createPassengerCar());
             }
         }
         return count;
@@ -49,34 +38,34 @@ public class CarService {
 
     public PassengerCar createPassengerCar() {
         Engine engine = new Engine(getRandomString());
-        PassengerCar passengerCar = new PassengerCar (getRandomString(), engine, getRandomColor(), randomGenerator.getRandomNumber());
+        PassengerCar passengerCar = new PassengerCar(getRandomString(), engine, getRandomColor(), randomGenerator.getRandomNumber());
         carArrayRepository.save(passengerCar);
         return passengerCar;
     }
 
     public Truck createTruck() {
         Engine engine = new Engine(getRandomString());
-        Truck truck = new Truck (getRandomString(), engine, getRandomColor(), randomGenerator.getRandomNumber());
+        Truck truck = new Truck(getRandomString(), engine, getRandomColor(), randomGenerator.getRandomNumber());
+        carArrayRepository.save(truck);
         return truck;
     }
 
 
-
     //tested//
-    public void insert(int index, final PassengerCar passengerCar) {
-        if (index < 0 || passengerCar == null) {
+    public void insert(int index, final Car car) {
+        if (index < 0 || car == null) {
             return;
         }
-        carArrayRepository.insert(index, passengerCar);
+        carArrayRepository.insert(index, car);
     }
 
     //tested//
-    public static void check(PassengerCar passengerCar) {
-        if (passengerCar.getCount() >= 1 && (passengerCar.getEngine().getPower() > 200)) {
+    public static void check(Car car) {
+        if (car.getCount() >= 1 && (car.getEngine().getPower() > 200)) {
             System.out.println("The car is ready for sale");
-        } else if (passengerCar.getCount() < 1 && (passengerCar.getEngine().getPower() > 200)) {
+        } else if (car.getCount() < 1 && (car.getEngine().getPower() > 200)) {
             System.out.println("The count of the car = 0");
-        } else if (passengerCar.getCount() >= 1 && (passengerCar.getEngine().getPower() <= 200)) {
+        } else if (car.getCount() >= 1 && (car.getEngine().getPower() <= 200)) {
             System.out.println("The engine power of the car is less than 200");
         } else {
             System.out.println("The count of the car = 0 and the engine power of the car is less than 200");
@@ -84,23 +73,23 @@ public class CarService {
     }
 
     // tested //
-    public void print(PassengerCar passengerCar) {
-        System.out.println(passengerCar.toString());
+    public void print(Car car) {
+        System.out.println(car.toString());
     }
 
     // tested //
     public void printAll() {
-        final PassengerCar[] all = carArrayRepository.getAll();
+        final Car[] all = carArrayRepository.getAll();
         System.out.println(Arrays.toString(all));
     }
 
     //tested//
-    public PassengerCar[] getAll() {
+    public Car[] getAll() {
         return carArrayRepository.getAll();
     }
 
     //tested//
-    public PassengerCar find(final String id) {
+    public Car find(final String id) {
         if (id == null || id.isEmpty()) {
             return null;
         }
@@ -126,20 +115,20 @@ public class CarService {
         if (id == null || id.isEmpty()) {
             return;
         }
-        final PassengerCar passengerCar = find(id);
-        if (passengerCar == null) {
+        final Car car = find(id);
+        if (car == null) {
             return;
         }
-        findAndChangeRandomColor(passengerCar);
+        findAndChangeRandomColor(car);
     }
 
-    private void findAndChangeRandomColor(final PassengerCar passengerCar) {
-        final Color color = passengerCar.getColor();
+    private void findAndChangeRandomColor(final Car car) {
+        final Color color = car.getColor();
         Color randomColor;
         do {
             randomColor = getRandomColor();
         } while (randomColor == color);
-        carArrayRepository.updateColor(passengerCar.getId(), randomColor);
+        carArrayRepository.updateColor(car.getId(), randomColor);
     }
 
     //tested//
