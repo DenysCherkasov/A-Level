@@ -15,11 +15,29 @@ public class CarService {
     public CarService(final CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
+    public Car create(Type type) {
+        Engine engine = new Engine(getRandomString());
+        Car car;
+        if (type != Type.PASSENGERCAR && type != Type.TRUCK) {
+            type = getRandomType();
+        }
+        if (type == Type.PASSENGERCAR) {
+            car = new PassengerCar(getRandomString(),
+                    engine, getRandomColor(),
+                    randomGenerator.getRandomNumber());
+        } else {
+            car = new Truck(getRandomString(),
+                    engine, getRandomColor(),
+                    randomGenerator.getRandomNumber());
+        }
+        carArrayRepository.save(car);
+        return car;
+    }
 
     // tested //
     public void createWithCount(final int count) {
         for (int i = 0; i < count; i++) {
-            createPassengerCar();
+            create(getRandomType());
         }
     }
 
@@ -30,26 +48,29 @@ public class CarService {
             return -1;
         } else {
             for (int i = 0; i < count; i++) {
-                print(createPassengerCar());
+                print(create(getRandomType()));
             }
         }
         return count;
     }
 
-    public PassengerCar createPassengerCar() {
-        Engine engine = new Engine(getRandomString());
-        PassengerCar passengerCar = new PassengerCar(getRandomString(), engine, getRandomColor(), randomGenerator.getRandomNumber());
-        carArrayRepository.save(passengerCar);
-        return passengerCar;
+    public boolean carEquals (final Car firstCar, final Car secondCar) {
+        if (firstCar == null || secondCar == null) {
+            return false;
+        }
+        if (firstCar.getType() != secondCar.getType()) {
+            return false;
+        }
+        if (firstCar.hashCode() != secondCar.hashCode()) {
+            return false;
+        }
+        else if (firstCar.getId() != secondCar.getId()) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
-
-    public Truck createTruck() {
-        Engine engine = new Engine(getRandomString());
-        Truck truck = new Truck(getRandomString(), engine, getRandomColor(), randomGenerator.getRandomNumber());
-        carArrayRepository.save(truck);
-        return truck;
-    }
-
 
     //tested//
     public void insert(int index, final Car car) {
@@ -106,6 +127,12 @@ public class CarService {
 
     private Color getRandomColor() {
         final Color[] values = Color.values();
+        final int randomIndex = random.nextInt(values.length);
+        return values[randomIndex];
+    }
+
+    private Type getRandomType() {
+        final Type[] values = Type.values();
         final int randomIndex = random.nextInt(values.length);
         return values[randomIndex];
     }
