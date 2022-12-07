@@ -15,5 +15,8 @@ public class Main {
         System.out.println(carService.carEquals(carService.create(Type.TRUCK),
                 carService.create(Type.TRUCK)));
         System.out.println(carService.carEquals(car, car));
+        System.out.println(car.toString());
+
     }
+
 }
