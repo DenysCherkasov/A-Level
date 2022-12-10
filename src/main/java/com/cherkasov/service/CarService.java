@@ -3,8 +3,10 @@ package com.cherkasov.service;
 import com.cherkasov.model.*;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.util.RandomGenerator;
+import com.cherkasov.util.UserInputException;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Random;
 
 public class CarService {
@@ -15,6 +17,7 @@ public class CarService {
     public CarService(final CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
+
     public Car create(Type type) {
         Engine engine = new Engine(getRandomString());
         Car car;
@@ -54,22 +57,13 @@ public class CarService {
         return count;
     }
 
-    public boolean carEquals (final Car firstCar, final Car secondCar) {
-        if (firstCar == null || secondCar == null) {
+    public boolean carEquals(final Car firstCar, final Car secondCar) {
+        if (firstCar == null || secondCar == null ||
+                firstCar.getType() != secondCar.getType() ||
+                firstCar.hashCode() != secondCar.hashCode()) {
             return false;
         }
-        if (firstCar.getType() != secondCar.getType()) {
-            return false;
-        }
-        if (firstCar.hashCode() != secondCar.hashCode()) {
-            return false;
-        }
-        else if (firstCar.getId() != secondCar.getId()) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return firstCar.equals(secondCar);
     }
 
     //tested//
@@ -89,7 +83,8 @@ public class CarService {
         } else if (car.getCount() >= 1 && (car.getEngine().getPower() <= 200)) {
             System.out.println("The engine power of the car is less than 200");
         } else {
-            System.out.println("The count of the car = 0 and the engine power of the car is less than 200");
+            System.out.println("The count of the car = 0 and the engine power " +
+                    "of the car is less than 200");
         }
     }
 
@@ -170,4 +165,64 @@ public class CarService {
         }
         return sb.toString();
     }
+
+    public void printManufacturerAndCount(final Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        carOptional.ifPresent(ManufacturerAndCount -> {
+            System.out.println("Manufacturer: " + car.getManufacturer() +
+                    ", Count: " + car.getCount());
+        });
+    }
+
+    public void printColor(final Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        Car newCar = carOptional.orElse(new PassengerCar(getRandomString(),
+                new Engine(getRandomString()), getRandomColor(),
+                randomGenerator.getRandomNumber()));
+        System.out.println("Color: " + newCar.getColor());
+    }
+
+    public void printEngineInfo(final Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        Car newCar = carOptional.orElseGet(() -> create(Type.PASSENGERCAR));
+        System.out.println("Engine: " + newCar.getEngine());
+    }
+
+    public void printInfo(final Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        carOptional.ifPresentOrElse(
+                newCar -> {
+                    System.out.println("Car: " + newCar);
+                },
+                () -> {
+                    Car newCar = create(Type.PASSENGERCAR);
+                    System.out.println("New car: " + newCar);
+                });
+    }
+
+    public void checkCount(final Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        carOptional.filter(count -> car.getCount() > 10)
+                .orElseThrow(UserInputException::new);
+        System.out.println("Manufacturer: " +
+                car.getManufacturer() + ", Count: " + car.getCount());
+
+    }
+
+    public void checkCount2(final Car car) {
+        Optional<Car> carOptional = Optional.ofNullable(car);
+        carOptional.ifPresent(type -> {
+            carOptional.filter(count -> {
+                        final boolean b = car.getCount() > 10;
+                        if (b) {
+                            System.out.println("Manufacturer: " +
+                                    count.getManufacturer() +
+                                    ", Count: " + count.getCount());
+                        }
+                        return b;
+                    })
+                    .orElseThrow(UserInputException::new);
+        });
+    }
+
 }

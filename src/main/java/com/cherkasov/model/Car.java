@@ -1,24 +1,21 @@
 package com.cherkasov.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
-@Data
 @Setter
 @Getter
-public abstract class Car {
-    private Type type;
-    private final String id;
-    private String manufacturer;
-    private Engine engine;
-    private Color color;
-    private int count;
-    private int price;
+public abstract class Car implements CountRestore {
+    protected Type type;
+    protected final String id;
+    protected String manufacturer;
+    protected Engine engine;
+    protected Color color;
+    protected int count;
+    protected int price;
 
     public Car() {
         this.id = UUID.randomUUID().toString();
@@ -33,10 +30,25 @@ public abstract class Car {
         price = new Random().nextInt(10000, 100000);
         id = UUID.randomUUID().toString();
     }
+
     @Override
     public String toString() {
-        return String.format("ID: %s, Type: %s, Manufacturer: %s, Engine: %s, Color: %s, Count; %s, Price; %s",
+        return String.format("ID: %s, Type: %s, " +
+                        "Manufacturer: %s, Engine: %s, " +
+                        "Color: %s, Count; %s, Price; %s",
                 id, type, manufacturer, engine, color, count, price);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return  id.equals(car.id) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
