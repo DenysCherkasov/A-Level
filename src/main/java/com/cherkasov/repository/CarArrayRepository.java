@@ -52,11 +52,11 @@ public class CarArrayRepository {
     }
 
 
-    private int putCar(Car car) {
+    private int putCar(Car passengerCar) {
         int index = 0;
         for (; index < cars.length; index++) {
             if (cars[index] == null) {
-                cars[index] = car;
+                cars[index] = passengerCar;
                 break;
             }
         }

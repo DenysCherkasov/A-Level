@@ -1,14 +1,18 @@
 package com.cherkasov.model;
 
+import lombok.Data;
 import java.util.Random;
+
+@Data
 
 public class Engine {
     private int power;
     private String type;
 
     public Engine(String type) {
-        this.power = new Random().nextInt(1000);
+        power = new Random().nextInt(1000);
         this.type = type;
+    }
     }
 
     public void setPower(final int power) {
