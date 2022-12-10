@@ -8,15 +8,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PassengerCar extends Car implements CountRestore {
-    private int passengerCaunt;
+    private int passengerCount;
 
-    public PassengerCar(String manufacturer, Engine engine, Color color, int passengerCaunt) {
-        super(manufacturer, engine, color);
-        this.passengerCaunt = passengerCaunt;
+    public PassengerCar(String manufacturer, Engine engine, Color color, int passengerCount) {
+        super(manufacturer, engine, color, Type.PASSENGERCAR);
+        this.passengerCount = passengerCount;
     }
 
-    public PassengerCar(int passengerCaunt) {
-        this.passengerCaunt = passengerCaunt;
+    public PassengerCar(int passengerCount) {
+        this.passengerCount = passengerCount;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(", Passenger count: %s%n", passengerCount);
     }
 
     @Override
