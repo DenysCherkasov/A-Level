@@ -33,10 +33,12 @@ public abstract class Car {
         price = new Random().nextInt(10000, 100000);
         id = UUID.randomUUID().toString();
     }
+    
     @Override
     public String toString() {
         return String.format("ID: %s, Type: %s, Manufacturer: %s, Engine: %s, Color: %s, Count; %s, Price; %s",
                 id, type, manufacturer, engine, color, count, price);
     }
 
+main
 }
