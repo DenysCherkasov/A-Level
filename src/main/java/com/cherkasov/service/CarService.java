@@ -167,42 +167,39 @@ public class CarService {
     }
 
     public void printManufacturerAndCount(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.ifPresent(ManufacturerAndCount -> {
+        Optional.ofNullable(car).ifPresent(ManufacturerAndCount -> {
             System.out.println("Manufacturer: " + car.getManufacturer() +
                     ", Count: " + car.getCount());
         });
     }
 
     public void printColor(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        Car newCar = carOptional.orElse(new PassengerCar(getRandomString(),
+        Car newCar = Optional.ofNullable(car).orElse(new PassengerCar(getRandomString(),
                 new Engine(getRandomString()), getRandomColor(),
                 randomGenerator.getRandomNumber()));
         System.out.println("Color: " + newCar.getColor());
     }
 
     public void printEngineInfo(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        Car newCar = carOptional.orElseGet(() -> create(Type.PASSENGERCAR));
+        Car newCar = Optional.ofNullable(car)
+                .orElseGet(() -> create(Type.PASSENGERCAR));
         System.out.println("Engine: " + newCar.getEngine());
     }
 
     public void printInfo(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.ifPresentOrElse(
-                newCar -> {
-                    System.out.println("Car: " + newCar);
-                },
-                () -> {
-                    Car newCar = create(Type.PASSENGERCAR);
-                    System.out.println("New car: " + newCar);
-                });
+        Optional.ofNullable(car)
+                .ifPresentOrElse(
+                        newCar -> {
+                            System.out.println("Car: " + newCar);
+                        },
+                        () -> {
+                            Car newCar = create(Type.PASSENGERCAR);
+                            System.out.println("New car: " + newCar);
+                        });
     }
 
     public void checkCount(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.filter(count -> car.getCount() > 10)
+        Optional.ofNullable(car).filter(count -> car.getCount() > 10)
                 .orElseThrow(UserInputException::new);
         System.out.println("Manufacturer: " +
                 car.getManufacturer() + ", Count: " + car.getCount());
@@ -211,18 +208,19 @@ public class CarService {
 
     public void checkCount2(final Car car) {
         Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.ifPresent(type -> {
-            carOptional.filter(count -> {
-                        final boolean b = car.getCount() > 10;
-                        if (b) {
-                            System.out.println("Manufacturer: " +
-                                    count.getManufacturer() +
-                                    ", Count: " + count.getCount());
-                        }
-                        return b;
-                    })
-                    .orElseThrow(UserInputException::new);
-        });
+        Optional.ofNullable(car)
+                .ifPresent(type -> {
+                    carOptional.filter(count -> {
+                                final boolean b = car.getCount() > 10;
+                                if (b) {
+                                    System.out.println("Manufacturer: " +
+                                            count.getManufacturer() +
+                                            ", Count: " + count.getCount());
+                                }
+                                return b;
+                            })
+                            .orElseThrow(UserInputException::new);
+                });
     }
 
 }

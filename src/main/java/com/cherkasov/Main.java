@@ -4,6 +4,7 @@ import com.cherkasov.model.Car;
 import com.cherkasov.model.Type;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.service.CarService;
+import com.cherkasov.util.AlgorithmUtil;
 
 public class Main {
     public static void main(String[] arg) {
@@ -18,7 +19,7 @@ public class Main {
         //   System.out.println(car.toString());
 
         Car carNull = null;
-        carService.printManufacturerAndCount(car);
+        /*carService.printManufacturerAndCount(car);
         carService.printManufacturerAndCount(carNull);
 
         carService.printColor(car);
@@ -38,7 +39,13 @@ public class Main {
         carService.checkCount(car);
         carService.checkCount(carNull);
         carService.checkCount2(carService.create(Type.TRUCK));
-
+*/
+        carService.createWithCount(8);
+        carService.printAll();
+        Car [] sortedCars = AlgorithmUtil
+                .bubbleSortCars(carService.getAll());
+        AlgorithmUtil.printCarsArray(sortedCars);
+        System.out.println("Index of this car: " + AlgorithmUtil.binarySearchCar(sortedCars, car));
 
     }
 

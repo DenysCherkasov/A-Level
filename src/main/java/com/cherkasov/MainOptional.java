@@ -15,6 +15,7 @@ public class MainOptional {
 /*
         final Optional<Engine> engineEmptyOptional = carService.createEngine("werweftg");
         final Optional<Engine> enginePresentOptional = carService.createEngine("oil");
+
 //        myGetAndIsPresent(engineEmptyOptional);
 //        myGetAndIsPresent(enginePresentOptional);
 //        myIfPresent(engineEmptyOptional);
