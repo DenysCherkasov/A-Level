@@ -1,14 +1,11 @@
-package com.cherkasov;
+package com.cherkasov.util;
 
 
-import com.cherkasov.model.Engine;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.service.CarService;
 
-import java.util.Optional;
-
-public class MainOptional {
-    private static final CarService carService = new CarService(new CarArrayRepository());
+public class ExsmpleOfOptional {
+    private static final CarService carService = CarService.getInstance(CarArrayRepository.getInstance());
 
     public static void main(String[] args) {
 

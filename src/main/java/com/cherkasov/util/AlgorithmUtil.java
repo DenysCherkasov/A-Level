@@ -20,6 +20,25 @@ public class AlgorithmUtil {
         }
     }
 
+    public static Car[] bubbleSortCarsDescending(Car[] cars) {
+        if (cars != null) {
+            for (int i = 0; i < cars.length - 1; i++)
+                for (int j = 0; j < cars.length - i - 1; j++)
+                    if (cars[j] != null && cars[j + 1] != null &&
+                            cars[j].getId().compareTo(cars[j + 1].getId()) < 0) {
+                        Car temp = cars[j];
+                        cars[j] = cars[j + 1];
+                        cars[j + 1] = temp;
+                    }
+            printCarsArray(cars);
+            return cars;
+        } else {
+            System.out.println("This array is null");
+            return cars;
+        }
+    }
+
+
     public static void printCarsArray(Car[] cars) {
         if (cars != null) {
             for (int i = 0; i < cars.length; i++) {
@@ -37,7 +56,6 @@ public class AlgorithmUtil {
 
     public static int binarySearchCar(Car[] cars, Car carToSearch) {
         if (cars != null && carToSearch != null) {
-            int index = 123456;
             int firstIndex = 0;
             int lastIndex = cars.length - 1;
             while (firstIndex <= lastIndex) {
@@ -47,13 +65,13 @@ public class AlgorithmUtil {
                 } else if (cars[mid].getId().compareTo(carToSearch.getId()) > 0) {
                     lastIndex = mid - 1;
                 } else if (cars[mid].getId().compareTo(carToSearch.getId()) == 0) {
-                    index = mid;
+                    return mid;
                 }
-                return index;
             }
         }
         return -1;
     }
 }
+
 
 

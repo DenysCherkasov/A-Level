@@ -1,4 +1,4 @@
-package com.cherkasov.util;
+package com.cherkasov.exceptions;
 
 public class UserInputException extends RuntimeException {
 

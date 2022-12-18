@@ -1,14 +1,16 @@
 package com.cherkasov;
 
+import com.cherkasov.Action.Actions;
 import com.cherkasov.model.Car;
 import com.cherkasov.model.Type;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.service.CarService;
 import com.cherkasov.util.AlgorithmUtil;
+import com.cherkasov.util.UserInput;
 
 public class Main {
     public static void main(String[] arg) {
-        CarService carService = new CarService(new CarArrayRepository());
+        CarService carService = CarService.getInstance();
         // carService.create(Type.TRUCK);
         //   carService.create(Type.PASSENGERCAR);
         //   carService.printAll();
@@ -42,11 +44,28 @@ public class Main {
 */
         carService.createWithCount(8);
         carService.printAll();
-        Car [] sortedCars = AlgorithmUtil
+        Car[] sortedCars = AlgorithmUtil
                 .bubbleSortCars(carService.getAll());
         AlgorithmUtil.printCarsArray(sortedCars);
+
         System.out.println("Index of this car: " + AlgorithmUtil.binarySearchCar(sortedCars, car));
 
+        final Actions[] values = Actions.values();
+        final String[] names = mapActionToName(values);
+
+        while (true) {
+            final int userChoice = UserInput.menu(names);
+            values[userChoice].execute();
+        }
     }
+
+    private static String[] mapActionToName(final Actions[] values) {
+        String[] names = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            names[i] = values[i].getName();
+        }
+        return names;
+    }
+
 
 }

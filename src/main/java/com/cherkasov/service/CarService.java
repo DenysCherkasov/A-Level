@@ -3,7 +3,7 @@ package com.cherkasov.service;
 import com.cherkasov.model.*;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.util.RandomGenerator;
-import com.cherkasov.util.UserInputException;
+import com.cherkasov.exceptions.UserInputException;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -14,9 +14,26 @@ public class CarService {
     private final Random random = new Random();
     private final RandomGenerator randomGenerator = new RandomGenerator();
 
-    public CarService(final CarArrayRepository carArrayRepository) {
+    private static CarService instance;
+
+    private CarService(final CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
+
+    public static CarService getInstance() {
+        if (instance == null) {
+            instance = new CarService(CarArrayRepository.getInstance());
+        }
+        return instance;
+    }
+
+    public static CarService getInstance(final CarArrayRepository repository) {
+        if (instance == null) {
+            instance = new CarService(repository);
+        }
+        return instance;
+    }
+
 
     public Car create(Type type) {
         Engine engine = new Engine(getRandomString());
@@ -107,6 +124,7 @@ public class CarService {
     //tested//
     public Car find(final String id) {
         if (id == null || id.isEmpty()) {
+            System.out.println("Invalid ID, the car is not found!");
             return null;
         }
         return carArrayRepository.getById(id);
@@ -115,6 +133,7 @@ public class CarService {
     //tested//
     public void delete(final String id) {
         if (id == null || id.isEmpty()) {
+            System.out.println("Invalid ID, the car is not found!");
             return;
         }
         carArrayRepository.delete(id);
