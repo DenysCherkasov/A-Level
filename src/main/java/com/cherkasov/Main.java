@@ -1,6 +1,7 @@
 package com.cherkasov;
 
 import com.cherkasov.Action.Actions;
+import com.cherkasov.container.GenericContainer;
 import com.cherkasov.model.Car;
 import com.cherkasov.model.Type;
 import com.cherkasov.repository.CarArrayRepository;
@@ -42,30 +43,36 @@ public class Main {
         carService.checkCount(carNull);
         carService.checkCount2(carService.create(Type.TRUCK));
 */
-        carService.createWithCount(8);
-        carService.printAll();
-        Car[] sortedCars = AlgorithmUtil
-                .bubbleSortCars(carService.getAll());
-        AlgorithmUtil.printCarsArray(sortedCars);
-
-        System.out.println("Index of this car: " + AlgorithmUtil.binarySearchCar(sortedCars, car));
-
-        final Actions[] values = Actions.values();
-        final String[] names = mapActionToName(values);
-
-        while (true) {
-            final int userChoice = UserInput.menu(names);
-            values[userChoice].execute();
-        }
+//        carService.createWithCount(8);
+//        carService.printAll();
+//        Car[] sortedCars = AlgorithmUtil
+//                .bubbleSortCars(carService.getAll());
+//        AlgorithmUtil.printCarsArray(sortedCars);
+//
+//        System.out.println("Index of this car: " + AlgorithmUtil.binarySearchCar(sortedCars, car));
+//
+//        final Actions[] values = Actions.values();
+//        final String[] names = mapActionToName(values);
+//
+//        while (true) {
+//            final int userChoice = UserInput.menu(names);
+//            values[userChoice].execute();
+//        }
+        GenericContainer<Car> genericContainer = new GenericContainer<>(carService.create(Type.TRUCK));
+        genericContainer.print();
+        genericContainer.increaseCount();
+        genericContainer.print();
+        genericContainer.increaseCount(5.5);
+        genericContainer.print();
     }
 
-    private static String[] mapActionToName(final Actions[] values) {
-        String[] names = new String[values.length];
-        for (int i = 0; i < values.length; i++) {
-            names[i] = values[i].getName();
-        }
-        return names;
-    }
+//    private static String[] mapActionToName(final Actions[] values) {
+//        String[] names = new String[values.length];
+//        for (int i = 0; i < values.length; i++) {
+//            names[i] = values[i].getName();
+//        }
+//        return names;
+//    }
 
 
 }
