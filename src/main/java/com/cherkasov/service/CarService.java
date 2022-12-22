@@ -4,7 +4,7 @@ package com.cherkasov.service;
 import com.cherkasov.model.*;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.util.RandomGenerator;
-import com.cherkasov.util.UserInputException;
+import com.cherkasov.exceptions.UserInputException;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -14,9 +14,27 @@ public class CarService {
     private final CarArrayRepository carArrayRepository;
     private final Random random = new Random();
     private final RandomGenerator randomGenerator = new RandomGenerator();
-    public CarService(final CarArrayRepository carArrayRepository) {
+
+    private static CarService instance;
+
+    private CarService(final CarArrayRepository carArrayRepository) {
         this.carArrayRepository = carArrayRepository;
     }
+
+    public static CarService getInstance() {
+        if (instance == null) {
+            instance = new CarService(CarArrayRepository.getInstance());
+        }
+        return instance;
+    }
+
+    public static CarService getInstance(final CarArrayRepository repository) {
+        if (instance == null) {
+            instance = new CarService(repository);
+        }
+        return instance;
+    }
+
 
     public Car create(Type type) {
         Engine engine = new Engine(getRandomString());
@@ -108,6 +126,7 @@ System.out.println("The engine power of the car is less than 200");
     //tested//
     public Car find(final String id) {
         if (id == null || id.isEmpty()) {
+            System.out.println("Invalid ID, the car is not found!");
             return null;
         }
         return carArrayRepository.getById(id);
@@ -116,6 +135,7 @@ System.out.println("The engine power of the car is less than 200");
     //tested//
     public void delete(final String id) {
         if (id == null || id.isEmpty()) {
+            System.out.println("Invalid ID, the car is not found!");
             return;
         }
         carArrayRepository.delete(id);
@@ -168,42 +188,39 @@ System.out.println("The engine power of the car is less than 200");
     }
 
     public void printManufacturerAndCount(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.ifPresent(ManufacturerAndCount -> {
+        Optional.ofNullable(car).ifPresent(ManufacturerAndCount -> {
             System.out.println("Manufacturer: " + car.getManufacturer() +
                     ", Count: " + car.getCount());
         });
     }
 
     public void printColor(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        Car newCar = carOptional.orElse(new PassengerCar(getRandomString(),
+        Car newCar = Optional.ofNullable(car).orElse(new PassengerCar(getRandomString(),
                 new Engine(getRandomString()), getRandomColor(),
                 randomGenerator.getRandomNumber()));
         System.out.println("Color: " + newCar.getColor());
     }
 
     public void printEngineInfo(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        Car newCar = carOptional.orElseGet(() -> create(Type.PASSENGERCAR));
+        Car newCar = Optional.ofNullable(car)
+                .orElseGet(() -> create(Type.PASSENGERCAR));
         System.out.println("Engine: " + newCar.getEngine());
     }
 
     public void printInfo(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.ifPresentOrElse(
-                newCar -> {
-                    System.out.println("Car: " + newCar);
-                },
-                () -> {
-                    Car newCar = create(Type.PASSENGERCAR);
-                    System.out.println("New car: " + newCar);
-                });
+        Optional.ofNullable(car)
+                .ifPresentOrElse(
+                        newCar -> {
+                            System.out.println("Car: " + newCar);
+                        },
+                        () -> {
+                            Car newCar = create(Type.PASSENGERCAR);
+                            System.out.println("New car: " + newCar);
+                        });
     }
 
     public void checkCount(final Car car) {
-        Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.filter(count -> car.getCount() > 10)
+        Optional.ofNullable(car).filter(count -> car.getCount() > 10)
                 .orElseThrow(UserInputException::new);
         System.out.println("Manufacturer: " +
                 car.getManufacturer() + ", Count: " + car.getCount());
@@ -212,18 +229,20 @@ System.out.println("The engine power of the car is less than 200");
 
     public void checkCount2(final Car car) {
         Optional<Car> carOptional = Optional.ofNullable(car);
-        carOptional.ifPresent(type -> {
-            carOptional.filter(count -> {
-                        final boolean b = car.getCount() > 10;
-                        if (b) {
-                            System.out.println("Manufacturer: " +
-                                    count.getManufacturer() +
-                                    ", Count: " + count.getCount());
-                        }
-                        return b;
-                    })
-                    .orElseThrow(UserInputException::new);
-        });
+        Optional.ofNullable(car)
+                .ifPresent(type -> {
+                    carOptional.filter(count -> {
+                                final boolean b = car.getCount() > 10;
+                                if (b) {
+                                    System.out.println("Manufacturer: " +
+                                            count.getManufacturer() +
+                                            ", Count: " + count.getCount());
+                                }
+                                return b;
+                            })
+                            .orElseThrow(UserInputException::new);
+                });
     }
 
 }
+

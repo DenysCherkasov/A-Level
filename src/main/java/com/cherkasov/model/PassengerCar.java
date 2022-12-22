@@ -41,4 +41,4 @@ public class PassengerCar extends Car {
         return super.equals(obj);
     }
 
-    }
+}
