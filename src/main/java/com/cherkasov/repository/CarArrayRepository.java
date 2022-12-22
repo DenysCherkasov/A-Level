@@ -5,7 +5,7 @@ import com.cherkasov.model.Color;
 
 import java.util.Optional;
 
-public class CarArrayRepository {
+public class CarArrayRepository<T extends Car> implements RepositoryInterface <T>{
     private static Car[] cars = new Car[10];
 
     private static CarArrayRepository instance;
