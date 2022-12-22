@@ -11,6 +11,7 @@ import com.cherkasov.util.UserInput;
 public class Main {
     public static void main(String[] arg) {
         CarService carService = CarService.getInstance();
+
         // carService.create(Type.TRUCK);
         //   carService.create(Type.PASSENGERCAR);
         //   carService.printAll();
@@ -29,6 +30,7 @@ public class Main {
 
         carService.printEngineInfo(car);
         carService.printEngineInfo(carNull);
+
 
         carService.printInfo(car);
         carService.printInfo(carNull);

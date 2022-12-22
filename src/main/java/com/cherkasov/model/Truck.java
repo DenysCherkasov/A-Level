@@ -27,7 +27,7 @@ public class Truck extends Car {
         setCount(50);
         System.out.println(getCount());
     }
-
+    
     @Override
     public int hashCode() {
         return super.hashCode();

@@ -1,5 +1,6 @@
 package com.cherkasov.service;
 
+
 import com.cherkasov.model.*;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.util.RandomGenerator;
@@ -98,7 +99,8 @@ public class CarService {
         } else if (car.getCount() < 1 && (car.getEngine().getPower() > 200)) {
             System.out.println("The count of the car = 0");
         } else if (car.getCount() >= 1 && (car.getEngine().getPower() <= 200)) {
-            System.out.println("The engine power of the car is less than 200");
+
+System.out.println("The engine power of the car is less than 200");
         } else {
             System.out.println("The count of the car = 0 and the engine power " +
                     "of the car is less than 200");

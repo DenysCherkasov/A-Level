@@ -17,7 +17,8 @@ public class Engine {
         power = new Random().nextInt(1000);
         this.type = type;
     }
-    @Override
+
+@Override
     public String toString() {
         return String.format("(Power: %s, Type: %s)",
                 power, type);

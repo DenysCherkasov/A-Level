@@ -45,6 +45,7 @@ public abstract class Car implements CountRestore {
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
         return id.equals(car.id);
+
     }
 
     @Override
