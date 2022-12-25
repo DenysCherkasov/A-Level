@@ -1,8 +1,7 @@
 package com.cherkasov;
 
 import com.cherkasov.Action.Actions;
-import com.cherkasov.container.CarList;
-import com.cherkasov.container.GenericContainer;
+import com.cherkasov.container.*;
 import com.cherkasov.model.Car;
 import com.cherkasov.model.Type;
 import com.cherkasov.repository.CarArrayRepository;
@@ -10,9 +9,7 @@ import com.cherkasov.service.CarService;
 import com.cherkasov.util.AlgorithmUtil;
 import com.cherkasov.util.UserInput;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] arg) {
@@ -76,37 +73,81 @@ public class Main {
 //        return names;
 //    }
 
+//
+//        CarList<Car> carList = new CarList<>();
+//
+//        carList.add(0, carService.create(Type.TRUCK));
+//        carList.addLast(carService.create(Type.PASSENGERCAR));
+//        carList.addLast(carService.create(Type.TRUCK));
+//        carList.addLast(carService.create(Type.PASSENGERCAR));
+//        carList.add(carService.create(Type.TRUCK));
+//        System.out.println(carList.size());
+//        Iterator<Car> iterator = carList.iterator();
+//        while (iterator.hasNext()) {
+//            Car car1 = iterator.next();
+//            System.out.println(car1);
+//        }
+//
+//        carList.addFirst(carService.create(Type.PASSENGERCAR));
+//        System.out.println(carList.size());
+//        for (int i = 0; i < carList.size(); i++) {
+//            System.out.println(carList.get(i).toString());
+//        }
+//
+//        carList.remove(3);
+//        System.out.println(carList.size());
+//        for (int i = 0; i < carList.size(); i++) {
+//            System.out.println(carList.get(i).toString());
+//        }
+//        Car car = carService.create(Type.PASSENGERCAR);
+//        carList.addLast(car);
+//        System.out.println(carList.indexOf(car));
+        Car car1 = carService.create(Type.PASSENGERCAR);
+        Car car2 = carService.create(Type.PASSENGERCAR);
+        Car car3 = carService.create(Type.PASSENGERCAR);
+        Car car4 = carService.create(Type.PASSENGERCAR);
+        Car car5 = carService.create(Type.PASSENGERCAR);
+        Car car6 = carService.create(Type.PASSENGERCAR);
 
-        CarList<Car> carList = new CarList<>();
+        CarComparator a = new CarComparator();
+        CarTree carTree = new CarTree();
+        carTree.add(car1);
+        carTree.add(car2);
+        carTree.add(car3);
+        carTree.add(car4);
+        carTree.add(car5);
+        carTree.add(car6);
+        System.out.println(car1.toString() + car2.toString() +
+                car3.toString() + car4.toString() +
+                car5.toString() + car6.toString());
 
-        carList.add(0, carService.create(Type.TRUCK));
-        carList.addLast(carService.create(Type.PASSENGERCAR));
-        carList.addLast(carService.create(Type.TRUCK));
-        carList.addLast(carService.create(Type.PASSENGERCAR));
-        carList.add(carService.create(Type.TRUCK));
-        System.out.println(carList.size());
-        Iterator<Car> iterator = carList.iterator();
-        while (iterator.hasNext()) {
-            Car car1 = iterator.next();
-            System.out.println(car1);
+        System.out.println("Total count: " + carTree.sumCount());
+
+        List<Car> list = new ArrayList<>();
+        list.add(car1);
+        list.add(car2);
+        list.add(car3);
+        list.add(car4);
+        list.add(car5);
+        list.add(car6);
+
+        Map<Integer, List<Car>> listToMapPowerEngineListCar =
+                carService.listToMapPowerEngineListCar(list);
+
+        for (Map.Entry<Integer, List<Car>> pair : listToMapPowerEngineListCar.entrySet()) {
+            List value = pair.getValue();
+            Integer key = pair.getKey();
+            System.out.println("Key: " + key + ", Value: " + value.get(0));
         }
 
-        carList.addFirst(carService.create(Type.PASSENGERCAR));
-        System.out.println(carList.size());
-        for (int i = 0; i < carList.size(); i++) {
-            System.out.println(carList.get(i).toString());
+        Map<String, Integer> listToMapManufacturerCount =
+                carService.listToMapManufacturerCount(list);
+
+        for (Map.Entry<String, Integer> pair : listToMapManufacturerCount.entrySet()) {
+            Integer value = pair.getValue();
+            String key = pair.getKey();
+            System.out.println("Key: " + key + ", Value: " + value);
         }
-
-        carList.remove(3);
-        System.out.println(carList.size());
-        for (int i = 0; i < carList.size(); i++) {
-            System.out.println(carList.get(i).toString());
-        }
-        Car car = carService.create(Type.PASSENGERCAR);
-        carList.addLast(car);
-        System.out.println(carList.indexOf(car));
-
-
 
 
     }
