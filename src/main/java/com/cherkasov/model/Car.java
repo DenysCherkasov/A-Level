@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 public abstract class Car implements CountRestore {
     protected Type type;
-    protected final String id;
+    protected String id;
     protected String manufacturer;
     protected Engine engine;
     protected Color color;

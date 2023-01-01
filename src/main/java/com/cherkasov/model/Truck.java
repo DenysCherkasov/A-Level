@@ -16,6 +16,9 @@ public class Truck extends Car {
         this.loadCopacity = loadCopacity;
     }
 
+    public Truck() {
+    }
+
     @Override
     public String toString() {
         return super.toString() + String.format(", Passenger count: %s%n", loadCopacity);
