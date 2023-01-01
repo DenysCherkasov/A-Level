@@ -6,9 +6,8 @@ import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.util.RandomGenerator;
 import com.cherkasov.exceptions.UserInputException;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CarService {
     private final CarArrayRepository carArrayRepository;
@@ -244,5 +243,20 @@ System.out.println("The engine power of the car is less than 200");
                 });
     }
 
+    public Map<String, Integer> listToMapManufacturerCount(List<Car> list) {
+        Map<String, Integer> mapCars = list.stream()
+                .collect(Collectors.toMap(Car::getManufacturer, Car::getCount));
+        return mapCars;
+    }
+
+    public Map<Integer, List<Car>> listToMapPowerEngineListCar(List<Car> list) {
+        Map<Integer, List<Car>> mapCars = new HashMap<>();
+        for (int i = 0; i < list.size(); i++) {
+            List<Car> listCar = new ArrayList<>();
+            listCar.add(list.get(i));
+            mapCars.put(list.get(i).getEngine().getPower(), listCar);
+        }
+        return mapCars;
+    }
 }
 

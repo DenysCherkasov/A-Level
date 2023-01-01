@@ -16,7 +16,7 @@ public abstract class Car implements CountRestore {
     protected Color color;
     protected int count;
     protected int price;
-
+    private Random random = new Random();
     public Car() {
         this.id = UUID.randomUUID().toString();
     }
@@ -26,8 +26,8 @@ public abstract class Car implements CountRestore {
         this.color = color;
         this.engine = engine;
         this.type = type;
-        count = 1;
-        price = new Random().nextInt(10000, 100000);
+        count = random.nextInt(100);
+        price = random.nextInt(10000, 100000);
         id = UUID.randomUUID().toString();
     }
 
