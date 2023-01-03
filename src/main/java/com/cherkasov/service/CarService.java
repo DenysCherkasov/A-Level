@@ -280,13 +280,18 @@ public class CarService {
         return sum;
     }
 
-    public Map<Integer, Type> mapToMap(List<Car> list) {
-        Map map = list.stream()
+    public LinkedHashMap<String, Type> mapToMap(List<Car> list) {
+        LinkedHashMap<String, Type> map = list.stream()
                 .sorted(Comparator.comparing(Car::getManufacturer))
                 .distinct()
-                .collect(Collectors.toMap(Car::getId, Car::getType, (item, identicalItem) -> item));
+                .peek(car -> System.out.println(car))
+                .collect(
+                        LinkedHashMap::new,
+                        (myMap, car) -> myMap.put(car.getId(), car.getType()),
+                        (list1, list2) -> list1.putAll(list2));
         return map;
     }
+
 
     public void statistic(List<Car> list) {
         IntSummaryStatistics stats = list.stream()
