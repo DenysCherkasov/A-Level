@@ -16,6 +16,10 @@ public class PassengerCar extends Car {
         this.passengerCount = passengerCount;
     }
 
+    public PassengerCar() {
+    }
+
+
     public PassengerCar(int passengerCount) {
         this.passengerCount = passengerCount;
     }

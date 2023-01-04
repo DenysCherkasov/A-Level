@@ -3,6 +3,7 @@ package com.cherkasov;
 import com.cherkasov.Action.Actions;
 import com.cherkasov.container.*;
 import com.cherkasov.model.Car;
+import com.cherkasov.model.Engine;
 import com.cherkasov.model.Type;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.service.CarService;
@@ -119,11 +120,11 @@ public class Main {
         carTree.add(car4);
         carTree.add(car5);
         carTree.add(car6);
-        System.out.println(car1.toString() + car2.toString() +
-                car3.toString() + car4.toString() +
-                car5.toString() + car6.toString());
-
-        System.out.println("Total count: " + carTree.sumCount());
+//        System.out.println(car1.toString() + car2.toString() +
+//                car3.toString() + car4.toString() +
+//                car5.toString() + car6.toString());
+//
+//        System.out.println("Total count: " + carTree.sumCount());
 
         List<Car> list = new ArrayList<>();
         list.add(car1);
@@ -133,23 +134,39 @@ public class Main {
         list.add(car5);
         list.add(car6);
 
-        Map<Integer, List<Car>> listToMapPowerEngineListCar =
-                carService.listToMapPowerEngineListCar(list);
-
-        for (Map.Entry<Integer, List<Car>> pair : listToMapPowerEngineListCar.entrySet()) {
-            List value = pair.getValue();
-            Integer key = pair.getKey();
-            System.out.println("Key: " + key + ", Value: " + value.get(0));
+        Iterator<Car> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Car car = iterator.next();
+            System.out.println(car);
         }
 
-        Map<String, Integer> listToMapManufacturerCount =
-                carService.listToMapManufacturerCount(list);
 
-        for (Map.Entry<String, Integer> pair : listToMapManufacturerCount.entrySet()) {
-            Integer value = pair.getValue();
+        LinkedHashMap <String, Type> map = carService.mapToMap(list);
+
+        for (Map.Entry<String, Type> pair : map.entrySet()) {
+            Type value = pair.getValue();
             String key = pair.getKey();
             System.out.println("Key: " + key + ", Value: " + value);
         }
+
+
+//        Map<Engine, List<Car>> listToMapPowerEngineListCar =
+//                carService.listToMapPowerEngineListCar(list);
+//
+//        for (Map.Entry<Engine, List<Car>> pair : listToMapPowerEngineListCar.entrySet()) {
+//            List value = pair.getValue();
+//            Engine key = pair.getKey();
+//            System.out.println("Key: " + key + ", Value: " + value.get(0));
+//        }
+//
+//        Map<String, Integer> listToMapManufacturerCount =
+//                carService.listToMapManufacturerCount(list);
+//
+//        for (Map.Entry<String, Integer> pair : listToMapManufacturerCount.entrySet()) {
+//            Integer value = pair.getValue();
+//            String key = pair.getKey();
+//            System.out.println("Key: " + key + ", Value: " + value);
+//        }
 
 
     }
