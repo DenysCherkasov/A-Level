@@ -1,0 +1,13 @@
+<car>
+    <type>PASSENGERCAR</type>
+    <manufacturer>Tayota</manufacturer>
+    <color>RED</color>
+    <engine>
+        <power>220</power>
+        <engineType>hybrid</engineType>
+    </engine>
+    <count>15</count>
+    <price>10000</price>
+    <id>d06ddde2-f3bc-41g7-abwe-dfb123a0fceb</id>
+    <passengerCount>4</passengerCount>
+</car>

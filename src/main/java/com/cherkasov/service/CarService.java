@@ -4,11 +4,15 @@ import com.cherkasov.model.*;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.util.RandomGenerator;
 import com.cherkasov.exceptions.UserInputException;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.EnumUtils;
 
 import javax.sql.rowset.Predicate;
+import java.io.*;
 import java.util.*;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class CarService {
@@ -306,15 +310,14 @@ public class CarService {
         return list.stream()
                 .flatMap(Collection::stream)
                 .sorted(Comparator.comparing(Car::getColor))
-                .filter((car) -> {
+                .peek((car) -> {
                     System.out.println(car);
-                    return car.getPrice() > price;
                 })
                 .collect(Collectors.toMap(Car::getColor, Car::getCount, (item, identicalItem) -> item));
     }
 
-    public void mapToObject(Map<String, Object> map) {
-        Function<Map<String, Object>, Car> mapper = map1 -> {
+    public Car mapToObject(Map map) {
+        Function<Map<String, String>, Car> mapper = map1 -> {
             String typeString = (String) map.getOrDefault("type", "PASSENGERCAR");
             Type type = EnumUtils.getEnum(Type.class, typeString);
             if (type == Type.PASSENGERCAR) {
@@ -323,42 +326,94 @@ public class CarService {
                 return createTruck(map1);
             }
         };
+        return mapper.apply(map);
     }
 
-    private static Car createPassengerCar(final Map<String, Object> map) {
+    private static Car createPassengerCar(final Map<String, String> map) {
         PassengerCar passengerCar = (PassengerCar) createCar(map, Type.PASSENGERCAR);
-        final int passengerCount = (int) map.getOrDefault("passengerCount", 1);
+        final String stringPassengerCount = map.getOrDefault("passengerCount", "1");
+        int passengerCount = Integer.parseInt(stringPassengerCount);
         passengerCar.setPassengerCount(passengerCount);
         return passengerCar;
     }
 
-    private static Car createTruck(final Map<String, Object> map) {
+    private static Car createTruck(final Map<String, String> map) {
         Truck truck = (Truck) createCar(map, Type.TRUCK);
-        final int loadCapacity = (int) map.getOrDefault("loadCapacity", 10);
+        final String stringLoadCapacity = map.getOrDefault("loadCopacity", "10");
+        int loadCapacity = Integer.parseInt(stringLoadCapacity);
         truck.setLoadCopacity(loadCapacity);
         return truck;
     }
 
-    private static Car createCar(final Map<String, Object> map, Type type) {
+    private static Car createCar(final Map<String, String> map, Type type) {
         final Car car;
         if (type == Type.PASSENGERCAR) {
             car = new PassengerCar();
         } else {
             car = new Truck();
         }
-        final int count = (int) map.getOrDefault("count", 10);
+        car.setType(type);
+        final String StringCount = map.getOrDefault("count", "10");
+        int count = Integer.parseInt(StringCount);
         car.setCount(count);
-        final int price = (int) map.getOrDefault("price", 1000);
+        final String StringPrice = map.getOrDefault("price", "1000");
+        int price = Integer.parseInt(StringPrice);
         car.setPrice(price);
-        final Color color = (Color) map.getOrDefault("color", Color.BLACK);
+        final String StringColor = map.getOrDefault("color", "BLACK");
+        Color color = Color.valueOf(StringColor);
         car.setColor(color);
-        final Engine engine = (Engine) map.getOrDefault("engine", new Engine(instance.getRandomString()));
-        car.setEngine(engine);
-        final String manufacturer = (String) map.getOrDefault("manufacturer", instance.getRandomString());
+        final String StringPower = map.getOrDefault("power", "777");
+        int power = Integer.parseInt(StringPower);
+        final String engineType = map.getOrDefault("engineType", "diesel");
+        car.setEngine(new Engine(engineType, power));
+        final String manufacturer = map.getOrDefault("manufacturer", instance.getRandomString());
         car.setManufacturer(manufacturer);
-        final String id = (String) map.getOrDefault("id", UUID.randomUUID().toString());
+        final String id = map.getOrDefault("id", UUID.randomUUID().toString());
         car.setId(id);
         return car;
+    }
+
+    public Car fileToCar(String fileWay) {
+        Map<String, String> carFields = fileToMap(fileWay);
+        return mapToObject(carFields);
+    }
+
+    private Map<String, String> fileToMap(final String fileWay) {
+        InputStreamReader inputStreamReader = createInputStreamReader(fileWay);
+        if (fileWay.endsWith(".json")) {
+            return fileToMap(inputStreamReader, "\"(.*)\".*\"(.*)\".*");
+        }
+        if (fileWay.endsWith(".xml")) {
+            return fileToMap(inputStreamReader, "<(.*?)>(.*)<");
+        } else {
+            throw new UserInputException("File not found");
+        }
+    }
+
+    private InputStreamReader createInputStreamReader(final String fileWay) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        InputStream input = loader.getResourceAsStream(fileWay);
+        InputStreamReader inputStreamReader = new InputStreamReader(input);
+        return inputStreamReader;
+    }
+
+    // FIX ME
+    private Map<String, String> fileToMap(final InputStreamReader inputStreamReader, final String regex) {
+        Map<String, String> map = new HashMap<>();
+        String s;
+        try {
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            while ((s = reader.readLine()) != null) {
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(s);
+                if (matcher.find()) {
+                    map.put(matcher.group(1), matcher.group(2));
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return map;
     }
 
 

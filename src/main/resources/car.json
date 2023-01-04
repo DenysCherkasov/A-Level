@@ -1,0 +1,15 @@
+{
+  "car": {
+    "type": "TRUCK",
+    "manufacturer": "Tayota",
+    "color": "RED",
+    "engine": {
+      "power": "220",
+      "engineType": "hybrid"
+    },
+    "id": "d06ddde2-f3bc-41g7-abwe-dfb125a0fceb",
+    "count": "15",
+    "price": "10000",
+    "loadCopacity": "10"
+  }
+}
