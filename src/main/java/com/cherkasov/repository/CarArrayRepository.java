@@ -37,10 +37,10 @@ public class CarArrayRepository<T extends Car> implements RepositoryInterface <T
         return newCars;
     }
 
-    public Car getById(final String id) {
+    public Optional<Car> getById(final String id) {
         for (Car car : cars) {
             if (car.getId().equals(id)) {
-                return car;
+                return Optional.ofNullable(car);
             }
         }
         return null;
@@ -60,10 +60,8 @@ public class CarArrayRepository<T extends Car> implements RepositoryInterface <T
     }
 
     public void updateColor(final String id, final Color color) {
-        final Car car = getById(id);
-        if (car != null) {
-            car.setColor(color);
-        }
+        getById(id)
+                .ifPresent(car -> car.setColor(color));
     }
 
 

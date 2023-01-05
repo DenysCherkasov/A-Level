@@ -154,8 +154,8 @@ public class Main {
 //            System.out.println("Key: " + key + ", Value: " + value);
 //        }
 //
-        System.out.println(carService.fileToCar("car.json"));
-        System.out.println(carService.fileToCar("car.xml"));
+//        System.out.println(carService.fileToCar("car.json"));
+//        System.out.println(carService.fileToCar("car.xml"));
 
     }
 }

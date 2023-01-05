@@ -128,7 +128,7 @@ public class CarService {
     }
 
     //tested//
-    public Car find(final String id) {
+    public Optional <Car> find(final String id) {
         if (id == null || id.isEmpty()) {
             System.out.println("Invalid ID, the car is not found!");
             return null;
@@ -159,14 +159,8 @@ public class CarService {
 
 
     public void changeRandomColor(final String id) {
-        if (id == null || id.isEmpty()) {
-            return;
-        }
-        final Car car = find(id);
-        if (car == null) {
-            return;
-        }
-        findAndChangeRandomColor(car);
+        find(id)
+                .ifPresent (car -> findAndChangeRandomColor(car));
     }
 
     private void findAndChangeRandomColor(final Car car) {

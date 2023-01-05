@@ -9,11 +9,8 @@ public class FindAction implements Action {
     @Override
     public void execute() {
         final String inputId = UserInput.inputId();
-        Car foundedCar = CAR_SERVICE.find(inputId);
-        if (foundedCar != null) {
-            System.out.println("The car " + foundedCar);
-        } else {
-            System.out.println("The car is not found");
-        }
+        CAR_SERVICE.find(inputId)
+                .ifPresentOrElse(car -> System.out.println("The car " + car),
+                        () ->System.out.println("The car is not found"));
     }
 }
