@@ -18,7 +18,6 @@ public abstract class Car implements CountRestore {
     protected int price;
     private Random random = new Random();
     public Car() {
-        this.id = UUID.randomUUID().toString();
     }
 
     public Car(String manufacturer, Engine engine, Color color, Type type) {
