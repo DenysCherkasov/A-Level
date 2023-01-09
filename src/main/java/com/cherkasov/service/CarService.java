@@ -1,5 +1,6 @@
 package com.cherkasov.service;
 
+
 import com.cherkasov.model.*;
 import com.cherkasov.repository.CarArrayRepository;
 import com.cherkasov.util.RandomGenerator;
@@ -104,7 +105,8 @@ public class CarService {
         } else if (car.getCount() < 1 && (car.getEngine().getPower() > 200)) {
             System.out.println("The count of the car = 0");
         } else if (car.getCount() >= 1 && (car.getEngine().getPower() <= 200)) {
-            System.out.println("The engine power of the car is less than 200");
+
+System.out.println("The engine power of the car is less than 200");
         } else {
             System.out.println("The count of the car = 0 and the engine power " +
                     "of the car is less than 200");
@@ -284,13 +286,18 @@ public class CarService {
         return sum;
     }
 
-    public Map<Integer, Type> mapToMap(List<Car> list) {
-        Map map = list.stream()
+    public LinkedHashMap<String, Type> mapToMap(List<Car> list) {
+        LinkedHashMap<String, Type> map = list.stream()
                 .sorted(Comparator.comparing(Car::getManufacturer))
                 .distinct()
-                .collect(Collectors.toMap(Car::getId, Car::getType, (item, identicalItem) -> item));
+                .peek(car -> System.out.println(car))
+                .collect(
+                        LinkedHashMap::new,
+                        (myMap, car) -> myMap.put(car.getId(), car.getType()),
+                        (list1, list2) -> list1.putAll(list2));
         return map;
     }
+
 
     public void statistic(List<Car> list) {
         IntSummaryStatistics stats = list.stream()

@@ -19,6 +19,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] arg) {
         CarService carService = CarService.getInstance();
+
         // carService.create(Type.TRUCK);
         //   carService.create(Type.PASSENGERCAR);
         //   carService.printAll();
@@ -35,6 +36,7 @@ public class Main {
 
         carService.printEngineInfo(car);
         carService.printEngineInfo(carNull);
+
 
         carService.printInfo(car);
         carService.printInfo(carNull);
@@ -122,6 +124,7 @@ public class Main {
 //        carTree.add(car4);
 //        carTree.add(car5);
 //        carTree.add(car6);
+
 //        System.out.println(car1.toString() + car2.toString() +
 //                car3.toString() + car4.toString() +
 //                car5.toString() + car6.toString());
@@ -156,6 +159,25 @@ public class Main {
 //
         System.out.println(carService.fileToCar("car.json"));
         System.out.println(carService.fileToCar("car.xml"));
+
+//        Map<Engine, List<Car>> listToMapPowerEngineListCar =
+//                carService.listToMapPowerEngineListCar(list);
+//
+//        for (Map.Entry<Engine, List<Car>> pair : listToMapPowerEngineListCar.entrySet()) {
+//            List value = pair.getValue();
+//            Engine key = pair.getKey();
+//            System.out.println("Key: " + key + ", Value: " + value.get(0));
+//        }
+//
+//        Map<String, Integer> listToMapManufacturerCount =
+//                carService.listToMapManufacturerCount(list);
+//
+//        for (Map.Entry<String, Integer> pair : listToMapManufacturerCount.entrySet()) {
+//            Integer value = pair.getValue();
+//            String key = pair.getKey();
+//            System.out.println("Key: " + key + ", Value: " + value);
+//        }
+
 
     }
 }
